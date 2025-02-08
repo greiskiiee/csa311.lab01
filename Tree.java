@@ -1,6 +1,18 @@
 
 import java.util.Scanner;
 
+class Node {
+
+    int data;
+    Node left;
+    Node right;
+
+    public Node(int item) {
+        data = item;
+        left = right = null;
+    }
+}
+
 public class Tree {
 
     private Node root;
@@ -14,7 +26,7 @@ public class Tree {
         root = insertRec(root, data);
     }
 
-    public Node insertRec(Node root, int data) {
+    private Node insertRec(Node root, int data) {
         if (root == null) {
             root = new Node(data);
             return root;
@@ -86,7 +98,7 @@ public class Tree {
     }
 
     //hamgiin baga utgiig oloh
-    public int minValue(Node root) {
+    private int minValue(Node root) {
         int min = root.data;
 
         while (root.left != null) {
@@ -98,7 +110,7 @@ public class Tree {
     }
 
     //hamgiin ih utga oloh
-    public int maxValue(Node root) {
+    private int maxValue(Node root) {
         int max = root.data;
 
         while (root.right != null) {
@@ -128,81 +140,76 @@ public class Tree {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         Tree tree = new Tree();
 
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Enter the size of the tree: ");
+            int size = sc.nextInt();
 
-        System.out.println("Enter the size of the tree: ");
-        int size = sc.nextInt();
+            System.out.println("Enter node(s): ");
 
-        System.out.println("Enter node(s): ");
+            int i;
+            for (i = 0; i < size; i++) {
+                int el = sc.nextInt();
+                tree.insert(el);
+            }
 
-        int i;
-        for (i = 0; i < size; i++) {
-            int el = sc.nextInt();
-            tree.insert(el);
-        }
+            boolean ch = true;
 
-        boolean ch = true;
+            while (ch) {
+                System.out.println("\n1. Insert an element");
+                System.out.println("2. Delete and element");
+                System.out.println("3. Min value");
+                System.out.println("4. Max value");
+                System.out.println("5. Find an element");
+                System.out.println("6. In-order traversal");
+                System.out.println("7. Pre-order traversal");
+                System.out.println("8. Exit");
+                System.out.println("Your choice: ");
+                int choice = sc.nextInt();
 
-        while (ch) {
-            System.out.println("\n1. Insert an element");
-            System.out.println("2. Delete and element");
-            System.out.println("3. Min value");
-            System.out.println("4. Max value");
-            System.out.println("5. Find an element");
-            System.out.println("6. In-order traversal");
-            System.out.println("7. Pre-order traversal");
-            System.out.println("8. Exit");
-            System.out.println("Your choice: ");
-            int choice = sc.nextInt();
-
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter an element: ");
-                    int add = sc.nextInt();
-                    tree.insert(add);
-                    break;
-                case 2:
-                    System.out.println("Enter an element to delete: ");
-                    int delete = sc.nextInt();
-                    if (!tree.findVal(delete)) {
-                        System.out.println("Element did not found in a treee!");
-                    } else {
-                        tree.delete(delete);
-                        System.out.println("Element deleted. ");
+                switch (choice) {
+                    case 1 -> {
+                        System.out.println("Enter an element: ");
+                        int add = sc.nextInt();
+                        tree.insert(add);
                     }
-                    break;
-                case 3:
-                    System.out.println("\nMin value: " + tree.minValue(tree.root));
-                    break;
-                case 4:
-                    System.out.println("Max value: " + tree.maxValue(tree.root));
-                    break;
-                case 5:
-                    System.out.println("\nEnter an element to find: ");
-                    int search = sc.nextInt();
-                    System.out.println("Element found: " + tree.findVal(search));
-                    break;
-                case 6:
-                    System.out.println("In order printing: ");
-                    tree.inOrder();
-                    break;
-                case 7:
-                    System.out.println("\nPre order printing: ");
-                    tree.preOrder();
-                    break;
-                case 8:
-                    System.out.println("Programm ended.");
-                    ch = false;
-                    break;
-                default:
-                    System.out.println("Invalid choice !");
+                    case 2 -> {
+                        System.out.println("Enter an element to delete: ");
+                        int delete = sc.nextInt();
+                        if (!tree.findVal(delete)) {
+                            System.out.println("Element did not found in a treee!");
+                        } else {
+                            tree.delete(delete);
+                            System.out.println("Element deleted. ");
+                        }
+                    }
+                    case 3 ->
+                        System.out.println("\nMin value: " + tree.minValue(tree.root));
+                    case 4 ->
+                        System.out.println("Max value: " + tree.maxValue(tree.root));
+                    case 5 -> {
+                        System.out.println("\nEnter an element to find: ");
+                        int search = sc.nextInt();
+                        System.out.println("Element found: " + tree.findVal(search));
+                    }
+                    case 6 -> {
+                        System.out.println("In order printing: ");
+                        tree.inOrder();
+                    }
+                    case 7 -> {
+                        System.out.println("\nPre order printing: ");
+                        tree.preOrder();
+                    }
+                    case 8 -> {
+                        System.out.println("Programm ended.");
+                        ch = false;
+                    }
+                    default ->
+                        System.out.println("Invalid choice !");
+                }
             }
         }
-
-        sc.close();
 
     }
 
