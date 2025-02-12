@@ -1,11 +1,21 @@
 
 import java.util.Scanner;
 
+// abstract class AbstractTree {
+//     protected Node root;
+//     public AbstractTree() {
+//         root = null;
+//     }
+//     abstract void insert(int data);
+//     abstract void delete(int key);
+//     abstract boolean findVal(int key);
+//     abstract void inOrder();
+//     abstract void preOrder();
+// }
 class Node {
 
     int data;
-    Node left;
-    Node right;
+    Node left, right;
 
     public Node(int item) {
         data = item;
@@ -13,15 +23,9 @@ class Node {
     }
 }
 
-public class Tree {
+class Tree extends AbstractTree {
 
-    private Node root;
-
-    public Tree() {
-        root = null;
-    }
-
-    //shine node tree-d hiine
+    @Override
     public void insert(int data) {
         root = insertRec(root, data);
     }
@@ -41,7 +45,7 @@ public class Tree {
         return root;
     }
 
-    //inOrder daraallaar hewlene
+    @Override
     public void inOrder() {
         inOrderRec(root);
     }
@@ -54,7 +58,7 @@ public class Tree {
         }
     }
 
-    //preOrder daraallaar hewleh
+    @Override
     public void preOrder() {
         preOrderRec(root);
     }
@@ -67,13 +71,12 @@ public class Tree {
         }
     }
 
-    //key eer haij delete hiih
+    @Override
     public void delete(int key) {
         root = deleteRec(root, key);
     }
 
     private Node deleteRec(Node root, int key) {
-
         if (root == null) {
             return root;
         }
@@ -90,37 +93,31 @@ public class Tree {
             }
 
             root.data = minValue(root.right);
-
             root.right = deleteRec(root.right, root.data);
         }
 
         return root;
     }
 
-    //hamgiin baga utgiig oloh
     private int minValue(Node root) {
         int min = root.data;
-
         while (root.left != null) {
             min = root.left.data;
             root = root.left;
         }
-
         return min;
     }
 
-    //hamgiin ih utga oloh
     private int maxValue(Node root) {
         int max = root.data;
-
         while (root.right != null) {
             max = root.right.data;
             root = root.right;
         }
-
         return max;
     }
 
+    @Override
     public boolean findVal(int key) {
         return findValRec(root, key);
     }
@@ -129,7 +126,6 @@ public class Tree {
         if (root == null) {
             return false;
         }
-
         if (root.data == key) {
             return true;
         } else if (key < root.data) {
@@ -141,24 +137,18 @@ public class Tree {
 
     public static void main(String[] args) {
         Tree tree = new Tree();
-
         try (Scanner sc = new Scanner(System.in)) {
             System.out.println("Enter the size of the tree: ");
             int size = sc.nextInt();
-
             System.out.println("Enter node(s): ");
-
-            int i;
-            for (i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
                 int el = sc.nextInt();
                 tree.insert(el);
             }
-
             boolean ch = true;
-
             while (ch) {
                 System.out.println("\n1. Insert an element");
-                System.out.println("2. Delete and element");
+                System.out.println("2. Delete an element");
                 System.out.println("3. Min value");
                 System.out.println("4. Max value");
                 System.out.println("5. Find an element");
@@ -167,7 +157,6 @@ public class Tree {
                 System.out.println("8. Exit");
                 System.out.println("Your choice: ");
                 int choice = sc.nextInt();
-
                 switch (choice) {
                     case 1 -> {
                         System.out.println("Enter an element: ");
@@ -178,10 +167,10 @@ public class Tree {
                         System.out.println("Enter an element to delete: ");
                         int delete = sc.nextInt();
                         if (!tree.findVal(delete)) {
-                            System.out.println("Element did not found in a treee!");
+                            System.out.println("Element not found in the tree!");
                         } else {
                             tree.delete(delete);
-                            System.out.println("Element deleted. ");
+                            System.out.println("Element deleted.");
                         }
                     }
                     case 3 ->
@@ -202,15 +191,13 @@ public class Tree {
                         tree.preOrder();
                     }
                     case 8 -> {
-                        System.out.println("Programm ended.");
+                        System.out.println("Program ended.");
                         ch = false;
                     }
                     default ->
-                        System.out.println("Invalid choice !");
+                        System.out.println("Invalid choice!");
                 }
             }
         }
-
     }
-
 }
